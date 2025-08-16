@@ -1,0 +1,25 @@
+version: '3.7'
+services:
+  compreface-core:
+    container_name: compreface-core
+    image: exadel/compreface:1.0.0
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./data/core:/opt/compreface/core/data
+    environment:
+      - SAVE_IMAGES_TO_DB=false
+      - CONTAINER_PORT=8000
+    depends_on:
+      - compreface-postgres
+
+  compreface-postgres:
+    container_name: compreface-postgres
+    image: postgres:13-alpine
+    restart: always
+    environment:
+      POSTGRES_DB: compreface
+      POSTGRES_USER: compreface
+      POSTGRES_PASSWORD: password
+    volumes:
+      - ./data/postgres:/var/lib/postgresql/data
